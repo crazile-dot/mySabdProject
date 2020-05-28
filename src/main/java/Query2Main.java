@@ -16,16 +16,13 @@ import java.util.ArrayList;
 public class Query2Main {
 
     private final static int weekLength = 7;
-    //s3://mysabdbucketemraws
-    private final static String pathToFile = "data/time_series_covid19_confirmed_global.csv";
-    //private final static String output = "Results/query2_output.csv";
-    private final static String out = "Results/query2_output.csv";
+    private final static String pathToFile = "s3://mysabdbucketemraws/time_series_covid19_confirmed_global.csv";
+    private final static String out = "s3://mysabdbucketemraws/query2_output.csv";
 
 
     public static void main (String[] args) {
 
         SparkConf conf = new SparkConf()
-                .setMaster("local")
                 .setAppName("myApplication");
         JavaSparkContext sc = new JavaSparkContext(conf);
         sc.setLogLevel("ERROR");

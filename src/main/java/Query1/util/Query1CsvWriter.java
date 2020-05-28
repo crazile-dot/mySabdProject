@@ -17,9 +17,9 @@ public class Query1CsvWriter {
     public static void makeCsv(JavaPairRDD<DateTime, Double> rdd1, JavaPairRDD<DateTime, Double> rdd2, String output, String out) throws IOException{
         //aggiungere un controllo (se esiste già il file, ciao)
         JavaPairRDD<DateTime, Tuple2<Double, Double>> joinedRdd = rdd1.join(rdd2).sortByKey().cache();
-        //joinedRdd.map(t -> t._1() + "," + t._2()._1() + "," + t._2()._2()).saveAsTextFile(out);
-        List<Tuple2<DateTime, Tuple2<Double, Double>>> list = joinedRdd.collect();
-        writeCsv(list, output);
+        joinedRdd.map(t -> t._1() + "," + t._2()._1() + "," + t._2()._2()).saveAsTextFile(out);
+        /*List<Tuple2<DateTime, Tuple2<Double, Double>>> list = joinedRdd.collect();
+        writeCsv(list, output);*/
     }
 
     public static void writeCsv(List<Tuple2<DateTime, Tuple2<Double, Double>>> l, String output) throws IOException {
