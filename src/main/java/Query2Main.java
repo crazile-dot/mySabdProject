@@ -19,7 +19,7 @@ public class Query2Main {
     //s3://mysabdbucketemraws
     private final static String pathToFile = "data/time_series_covid19_confirmed_global.csv";
     //private final static String output = "Results/query2_output.csv";
-    private final static String out = "src/main/java/Results/query2_output.csv";
+    private final static String out = "Results/query2_output.csv";
 
 
     public static void main (String[] args) {

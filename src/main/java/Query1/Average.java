@@ -1,6 +1,7 @@
 package Query1;
 
 import Query1.util.DayIta;
+import org.apache.commons.math3.util.Precision;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.function.PairFunction;
 import org.joda.time.DateTime;
@@ -26,7 +27,7 @@ public class Average {
                             b = Double.valueOf(t._1()._2().getHealedDischarged());
                         }
                         mean = (b - a) / weekLength;
-                        Tuple2<DateTime, Double> tuple = new Tuple2<>(date, mean);
+                        Tuple2<DateTime, Double> tuple = new Tuple2<>(date, Precision.round(mean, 2));
                         return tuple;
                     }
                 }
@@ -52,7 +53,7 @@ public class Average {
                             b = Double.valueOf(t._1()._2().getSwabs());
                         }
                         mean = (b - a) / weekLength;
-                        Tuple2<DateTime, Double> tuple = new Tuple2<>(date, mean);
+                        Tuple2<DateTime, Double> tuple = new Tuple2<>(date, Precision.round(mean, 2));
                         return tuple;
                     }
                 }

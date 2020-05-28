@@ -1,5 +1,6 @@
 package Query2.util;
 
+import org.apache.commons.math3.util.Precision;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.function.PairFunction;
 import scala.Tuple2;
@@ -33,8 +34,8 @@ public class Query2CsvWriter {
                             for (int i = 0; i < t._2()._1()._1().size(); i++) {
                                 if (t._2()._1()._1().get(i)._1().equals(t._2()._1()._2().get(i)._1()) && t._2()._1()._2().get(i)._1().equals(t._2()._2().get(i)._1())) {
                                     date = t._2()._1()._1().get(i)._1();
-                                    Tuple4<Double, Double, Integer, Integer> tuple4 = new Tuple4<>(t._2()._1()._1().get(i)._2(),
-                                            t._2()._1()._2().get(i)._2(), t._2()._2().get(i)._2(), t._2()._2().get(i)._3());
+                                    Tuple4<Double, Double, Integer, Integer> tuple4 = new Tuple4<>(Precision.round(t._2()._1()._1().get(i)._2(), 2),
+                                            Precision.round(t._2()._1()._2().get(i)._2(), 2), t._2()._2().get(i)._2(), t._2()._2().get(i)._3());
                                     Tuple2<String, Tuple4<Double, Double, Integer, Integer>> tuple2 = new Tuple2<>(date, tuple4);
                                     arrayList.add(tuple2);
                                 } else {
@@ -49,7 +50,7 @@ public class Query2CsvWriter {
                         return tuple2Again;
                     }
                 });
-        valuesByDay.map(t -> {
+        /*valuesByDay.map(t -> {
             String line = "";
             for(int i = 0; i < t._2().size(); i++) {
                 line += t._1() + "," + t._2().get(i)._1() + "," + t._2().get(i)._2()._1()
@@ -62,10 +63,10 @@ public class Query2CsvWriter {
                 }
             }
             return line;
-        }).saveAsTextFile(out);
+        }).saveAsTextFile(out);*/
 
-        /*List<Tuple2<String, ArrayList<Tuple2<String, Tuple4<Double, Double, Integer, Integer>>>>> list = valuesByDay.collect();
-        writeCsv(list, output);*/
+        List<Tuple2<String, ArrayList<Tuple2<String, Tuple4<Double, Double, Integer, Integer>>>>> list = valuesByDay.collect();
+        writeCsv(list, output);
     }
 
     public static void writeCsv(List<Tuple2<String, ArrayList<Tuple2<String, Tuple4<Double, Double, Integer, Integer>>>>> l, String output) throws IOException{
