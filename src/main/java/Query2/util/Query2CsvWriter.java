@@ -49,7 +49,7 @@ public class Query2CsvWriter {
                         return tuple2Again;
                     }
                 });
-        /*valuesByDay.map(t -> {
+        valuesByDay.map(t -> {
             String line = "";
             for(int i = 0; i < t._2().size(); i++) {
                 line += t._1() + "," + t._2().get(i)._1() + "," + t._2().get(i)._2()._1()
@@ -60,10 +60,10 @@ public class Query2CsvWriter {
                 }
             }
             return line;
-        }).saveAsTextFile(out);*/
+        }).saveAsTextFile(out);
 
-        List<Tuple2<String, ArrayList<Tuple2<String, Tuple4<Double, Double, Integer, Integer>>>>> list = valuesByDay.collect();
-        writeCsv(list, output);
+        /*List<Tuple2<String, ArrayList<Tuple2<String, Tuple4<Double, Double, Integer, Integer>>>>> list = valuesByDay.collect();
+        writeCsv(list, output);*/
     }
 
     public static void writeCsv(List<Tuple2<String, ArrayList<Tuple2<String, Tuple4<Double, Double, Integer, Integer>>>>> l, String output) throws IOException{

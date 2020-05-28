@@ -15,14 +15,13 @@ public class Query1Executor {
 
     private final static int weekLength = 7;
     //s3://mysabdbucketemraws
-    private final static String pathToFile = "data/dpc-covid19-ita-andamento-nazionale.csv";
-    private final static String outputFile = "Results/query1_output.csv";
+    private final static String pathToFile = "s3://mysabdbucketemraws/dpc-covid19-ita-andamento-nazionale.csv";
+    //private final static String outputFile = "Results/query1_output.csv";
     private final static String output = "s3://mysabdbucketemraws/query1_output.csv";
 
     public static void main (String[] args) {
 
         SparkConf conf = new SparkConf()
-                .setMaster("local")
                 .setAppName("myApplication");
         JavaSparkContext sc = new JavaSparkContext(conf);
         sc.setLogLevel("ERROR");
@@ -33,7 +32,7 @@ public class Query1Executor {
         JavaPairRDD<DateTime, Double> swabsRdd = Average.computeSwabsAverage(rdd, weekLength);
 
         try {
-            Query1CsvWriter.makeCsv(healedDischargedRdd, swabsRdd, outputFile, outputFile);
+            Query1CsvWriter.makeCsv(healedDischargedRdd, swabsRdd, output, output);
         } catch (IOException io) {
             io.printStackTrace();
             System.out.println("Errore del file (il file potrebbe già esistere)");
