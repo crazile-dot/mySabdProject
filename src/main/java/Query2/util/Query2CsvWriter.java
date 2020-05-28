@@ -57,6 +57,8 @@ public class Query2CsvWriter {
                         + "," + t._2().get(i)._2()._4();
                 if(i != t._2().size()-1) {
                     line += System.lineSeparator();
+                } else {
+                    line += "";
                 }
             }
             return line;
@@ -74,7 +76,7 @@ public class Query2CsvWriter {
                 .append(CSV_SEPARATOR).append("max").append(System.lineSeparator());
         l.forEach(t -> {
             try {
-                for (int i = 0; i < t._2().size(); i++) {
+                for(int i = 0; i < t._2().size(); i++) {
                     writer.append(t._1()).append(CSV_SEPARATOR)
                             .append(t._2().get(i)._1()).append(CSV_SEPARATOR)
                             .append(Double.toString(t._2().get(i)._2()._1())).append(CSV_SEPARATOR)

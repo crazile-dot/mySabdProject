@@ -12,16 +12,17 @@ public class Query2CsvParser {
 
         String value1 = csvValues[0];
         String value2 = csvValues[1];
-        String value3 = csvValues[2];
+        double value3 = Double.parseDouble(csvValues[2]);
         double value4 = Double.parseDouble(csvValues[3]);
-        double value5 = Double.parseDouble(csvValues[4]);
-        for(int i = 5; i < csvValues.length; i++) {
+        for(int i = 4; i < csvValues.length; i++) {
             intValues.add(Integer.parseInt(csvValues[i]));
         }
         checkMonotonicity(intValues);
-        state = new State(value1, value2, value3, value4, value5, intValues, 0.0);
+        state = new State("", value1, value2, value3, value4, intValues, 0.0);
 
-        return state;
+        State anotherState = ContinentAllocator.allocateContinent(state);
+
+        return anotherState;
     }
 
     public static void checkMonotonicity(ArrayList<Integer> arrayList) {
@@ -41,7 +42,7 @@ public class Query2CsvParser {
         ArrayList<String> res = new ArrayList<>();
         String[] csvValues = csvLine.split(",");
 
-        for(int i = 5; i < csvValues.length; i++) {
+        for(int i = 4; i < csvValues.length; i++) {
             res.add(csvValues[i]);
         }
         return res;

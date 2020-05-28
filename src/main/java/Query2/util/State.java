@@ -58,4 +58,6 @@ public class State implements Serializable {
     public void setCoefficient(double coefficient) {
         this.coefficient = coefficient;
     }
+
+    public void setContinent(String continent) { this.continent = continent; }
 }

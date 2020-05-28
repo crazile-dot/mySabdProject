@@ -1,5 +1,6 @@
-package Query2;
-
+import Query2.Query2Preprocessing;
+import Query2.Statistics;
+import Query2.TrendCompute;
 import Query2.util.Query2CsvWriter;
 import Query2.util.State;
 import org.apache.spark.SparkConf;
@@ -12,18 +13,19 @@ import scala.Tuple3;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Query2Executor {
+public class Query2Main {
 
     private final static int weekLength = 7;
     //s3://mysabdbucketemraws
-    private final static String pathToFile = "s3://mysabdbucketemraws/time_series_covid19_confirmed_global.csv";
+    private final static String pathToFile = "data/time_series_covid19_confirmed_global.csv";
     //private final static String output = "Results/query2_output.csv";
-    private final static String out = "s3://mysabdbucketemraws/query2_output.csv";
+    private final static String out = "src/main/java/Results/query2_output.csv";
 
 
     public static void main (String[] args) {
 
         SparkConf conf = new SparkConf()
+                .setMaster("local")
                 .setAppName("myApplication");
         JavaSparkContext sc = new JavaSparkContext(conf);
         sc.setLogLevel("ERROR");

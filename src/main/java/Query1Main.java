@@ -1,5 +1,5 @@
-package Query1;
-
+import Query1.Average;
+import Query1.Query1Preprocessing;
 import Query1.util.DayIta;
 import Query1.util.Query1CsvWriter;
 import org.apache.spark.SparkConf;
@@ -11,7 +11,7 @@ import scala.Tuple2;
 
 import java.io.IOException;
 
-public class Query1Executor {
+public class Query1Main {
 
     private final static int weekLength = 7;
     //s3://mysabdbucketemraws

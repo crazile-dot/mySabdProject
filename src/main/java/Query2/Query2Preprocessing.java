@@ -18,7 +18,7 @@ public class Query2Preprocessing {
                 t._2() > 0).map(t -> t._1());
 
         //Parse del csv in oggetti State
-        JavaRDD<State> parseRdd = withoutFirstRow.map(line -> Query2CsvParser.parseCSV(line)).filter(x -> x != null);
+        JavaRDD<State> parseRdd = withoutFirstRow.map(line -> Query2CsvParser.parseCSV(line)).filter(x -> x != null && !x.getContinent().equals(""));
 
         //Trasformo i valori in puntuali
         JavaRDD<State> punctualValues = parseRdd.map(new Function<State,State>(){
