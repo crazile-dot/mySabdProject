@@ -34,7 +34,7 @@ public class Query1Preprocessing {
 
         /*Ordino i valori per data e prendo tutte le domeniche di ogni settimana
          */
-        JavaPairRDD<DayIta, Long> sortedRdd = values.sortBy(x -> x.getDate(), true, 1).zipWithIndex().cache();
+        JavaPairRDD<DayIta, Long> sortedRdd = values.sortBy(x -> x.getDate(), true, 1).zipWithIndex();
         JavaRDD<DayIta> sunday = sortedRdd.filter(t -> t._2()%weekLength == weekLength-1).map(t -> t._1());
 
         /*Faccio il prodotto cartesiano delle domeniche e prendo le coppie di domeniche
@@ -42,7 +42,7 @@ public class Query1Preprocessing {
          */
         JavaPairRDD<Tuple2<DayIta, DayIta>, Long> cartesian = sunday.cartesian(sunday).zipWithIndex();
         JavaPairRDD<Tuple2<DayIta, DayIta>, Long> needed = cartesian.filter(t -> t._2() == 0 || t._1()._1().getDate().plusDays(weekLength).compareTo(t._1()._2().getDate()) == 0
-                || t._1()._1().getDate().plusDays(weekLength).plusHours(-1).compareTo(t._1()._2().getDate()) == 0).cache();
+                || t._1()._1().getDate().plusDays(weekLength).plusHours(-1).compareTo(t._1()._2().getDate()) == 0);
 
 
         return needed;

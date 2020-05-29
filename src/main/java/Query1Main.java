@@ -32,7 +32,7 @@ public class Query1Main {
         JavaPairRDD<DateTime, Double> swabsRdd = Average.computeSwabsAverage(rdd, weekLength);
 
         try {
-            Query1CsvWriter.makeCsv(healedDischargedRdd, swabsRdd, output, output);
+            Query1CsvWriter.makeCsv(healedDischargedRdd, swabsRdd, output);
         } catch (IOException io) {
             io.printStackTrace();
             System.out.println("Errore del file (il file potrebbe già esistere)");

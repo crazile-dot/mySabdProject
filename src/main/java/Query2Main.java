@@ -20,7 +20,7 @@ public class Query2Main {
     public static void main (String[] args) {
 
         final String pathToFile = "s3://" + args[0] + "/time_series_covid19_confirmed_global.csv";
-        final String out = "s3://" + args[0] + "/query2_output.csv";
+        final String output = "s3://" + args[0] + "/query2_output.csv";
 
         SparkConf conf = new SparkConf()
                 .setAppName("myApplication");
@@ -28,17 +28,17 @@ public class Query2Main {
         sc.setLogLevel("ERROR");
 
         JavaRDD<String> globalCovid19File = sc.textFile(pathToFile);
-        JavaPairRDD<String, Long> rddWithIndex = globalCovid19File.zipWithIndex().cache();
+        JavaPairRDD<String, Long> rddWithIndex = globalCovid19File.zipWithIndex();
         JavaRDD<State> parsedRdd = Query2Preprocessing.preprocessing(rddWithIndex);
         JavaRDD<State> coefficients = TrendCompute.computeTrendlineCoefficient(parsedRdd);
         JavaRDD<State> first100 = TrendCompute.get100States(coefficients);
-        JavaPairRDD<String, ArrayList<Tuple2<String, Integer>>> valuesByContinent = Statistics.getValuesWithDate(first100, rddWithIndex).cache();
+        JavaPairRDD<String, ArrayList<Tuple2<String, Integer>>> valuesByContinent = Statistics.getValuesWithDate(first100, rddWithIndex);
 
-        JavaPairRDD<String, ArrayList<Tuple2<String, Double>>> meanRdd = Statistics.computeAverage(valuesByContinent, weekLength).cache();
+        JavaPairRDD<String, ArrayList<Tuple2<String, Double>>> meanRdd = Statistics.computeAverage(valuesByContinent, weekLength);
         JavaPairRDD<String, ArrayList<Tuple2<String, Double>>> standardDeviationRdd = Statistics.computeStandardDeviation(valuesByContinent, meanRdd, weekLength);
         JavaPairRDD<String, ArrayList<Tuple3<String, Integer, Integer>>> minMaxRdd = Statistics.computeMinMax(valuesByContinent, weekLength);
         try {
-            Query2CsvWriter.makeCsv(meanRdd, standardDeviationRdd, minMaxRdd, out, out);
+            Query2CsvWriter.makeCsv(meanRdd, standardDeviationRdd, minMaxRdd, output);
         } catch (IOException io) {
             io.printStackTrace();
             System.out.println("Errore del file (il file potrebbe già esistere)");

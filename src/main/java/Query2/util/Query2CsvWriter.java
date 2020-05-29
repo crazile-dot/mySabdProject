@@ -21,7 +21,7 @@ public class Query2CsvWriter {
             indicata, ed una tupla con i valori delle statistiche di quella settimana.
         */
     public static void makeCsv(JavaPairRDD<String, ArrayList<Tuple2<String, Double>>> rdd1, JavaPairRDD<String, ArrayList<Tuple2<String, Double>>> rdd2,
-                               JavaPairRDD<String, ArrayList<Tuple3<String, Integer, Integer>>> rdd3, String output, String out) throws IOException{
+                               JavaPairRDD<String, ArrayList<Tuple3<String, Integer, Integer>>> rdd3, String output) throws IOException{
         JavaPairRDD<String, Tuple2<ArrayList<Tuple2<String, Double>>, ArrayList<Tuple2<String, Double>>>> temp = rdd1.join(rdd2);
         JavaPairRDD<String, Tuple2<Tuple2<ArrayList<Tuple2<String, Double>>, ArrayList<Tuple2<String, Double>>>, ArrayList<Tuple3<String, Integer, Integer>>>> join =
                 temp.join(rdd3);
@@ -68,7 +68,7 @@ public class Query2CsvWriter {
                 }
             }
             return line;
-        }).saveAsTextFile(out);
+        }).saveAsTextFile(output);
 
     }
 
