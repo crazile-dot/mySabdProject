@@ -13,14 +13,14 @@ public class Query2Preprocessing {
 
     public static JavaRDD<State> preprocessing(JavaPairRDD<String, Long> rdd) {
 
-        //Tolgo la prima riga del csv cioè i nomi delle colonne
+        /*Tolgo la prima riga del csv cioè i nomi delle colonne*/
         JavaRDD<String> withoutFirstRow = rdd.filter((Tuple2<String, Long> t) ->
                 t._2() > 0).map(t -> t._1());
 
-        //Parse del csv in oggetti State
+        /*Parse del csv in oggetti State*/
         JavaRDD<State> parseRdd = withoutFirstRow.map(line -> Query2CsvParser.parseCSV(line)).filter(x -> x != null && !x.getContinent().equals(""));
 
-        //Trasformo i valori in puntuali
+        /*Trasformo i valori in puntuali*/
         JavaRDD<State> punctualValues = parseRdd.map(new Function<State,State>(){
             @Override
             public State call(State s) throws Exception{

@@ -16,8 +16,8 @@ import java.util.Collections;
 
 public class Statistics {
 
+    /**Calcolo la media per ogni settimana, indicata dalla data del lunedì*/
     public static JavaPairRDD<String, ArrayList<Tuple2<String, Double>>> computeAverage(JavaPairRDD<String, ArrayList<Tuple2<String, Integer>>> dailyValues, int weekLength) {
-        //Calcolo la media per ogni settimana, indicata dalla data del lunedì
         JavaPairRDD<String, ArrayList<Tuple2<String, Double>>> meanRdd = dailyValues.mapToPair(
                 new PairFunction<Tuple2<String, ArrayList<Tuple2<String, Integer>>>, String, ArrayList<Tuple2<String, Double>>>() {
                     @Override
@@ -40,9 +40,9 @@ public class Statistics {
         return meanRdd;
     }
 
+    /**Calcolo la deviazione standard per ogni settimana*/
     public static JavaPairRDD<String, ArrayList<Tuple2<String, Double>>> computeStandardDeviation
             (JavaPairRDD<String, ArrayList<Tuple2<String, Integer>>> dailyValues, JavaPairRDD<String, ArrayList<Tuple2<String, Double>>> meanRdd, int weekLength) {
-        //Calcolo la deviazione standard per ogni settimana
         JavaPairRDD<String, ArrayList<Tuple2<String, Double>>> standardDeviationRdd = dailyValues.join(meanRdd).
                 mapToPair(
                         new PairFunction<Tuple2<String, Tuple2<ArrayList<Tuple2<String, Integer>>, ArrayList<Tuple2<String, Double>>>>, String, ArrayList<Tuple2<String, Double>>>() {
@@ -66,9 +66,9 @@ public class Statistics {
         return standardDeviationRdd;
     }
 
+    /**Calcolo minimo e massimo per ogni settimana*/
     public static JavaPairRDD<String, ArrayList<Tuple3<String, Integer, Integer>>> computeMinMax
             (JavaPairRDD<String, ArrayList<Tuple2<String, Integer>>> dailyValues, int weekLength) {
-        //Calcolo minimo e massimo per ogni settimana
         JavaPairRDD<String, ArrayList<Tuple3<String, Integer, Integer>>> minmaxRdd = dailyValues.mapToPair(
                 new PairFunction<Tuple2<String, ArrayList<Tuple2<String, Integer>>>, String, ArrayList<Tuple3<String, Integer, Integer>>>() {
                     @Override
@@ -97,7 +97,7 @@ public class Statistics {
 
     public static JavaRDD<Continent> getValuesByContinent(JavaRDD<State> rdd) {
 
-        //Assegno il continente come chiave
+        /*Assegno il continente come chiave*/
         JavaPairRDD<String, State> continentMap = rdd.mapToPair(
                 new PairFunction<State, String, State>() {
                     @Override
@@ -108,7 +108,7 @@ public class Statistics {
                     }
                 }
         );
-        //Somma valori per chiave (per continente)
+        /*Faccio la somma dei valori per chiave (per continente)*/
         JavaRDD<Continent> sumAnyContinentValues = continentMap.reduceByKey(
                 new Function2<State, State, State>() {
                     @Override
@@ -133,10 +133,10 @@ public class Statistics {
         return sumAnyContinentValues;
     }
 
-    public static JavaPairRDD<String, ArrayList<Tuple2<String, Integer>>> getValuesWithDate(JavaRDD<State> rdd, JavaPairRDD<String, Long> rddWithIndex) {
-        /*prendo le date dalla prima riga del csv e faccio il prodotto cartesiano con il mio rdd
+    /**prendo le date dalla prima riga del csv e faccio il prodotto cartesiano con il mio rdd
         per associare il giorno ad ogni valore giornaliero
          */
+    public static JavaPairRDD<String, ArrayList<Tuple2<String, Integer>>> getValuesWithDate(JavaRDD<State> rdd, JavaPairRDD<String, Long> rddWithIndex) {
         JavaRDD<Continent> continentRdd = getValuesByContinent(rdd);
         JavaRDD<ArrayList<String>> datesRdd = rddWithIndex.filter((Tuple2<String, Long> t) ->
                 t._2() < 1).map(t -> t._1()).map(s -> Query2CsvParser.getDates(s));

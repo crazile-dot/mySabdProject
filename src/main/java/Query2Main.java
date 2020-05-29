@@ -16,11 +16,11 @@ import java.util.ArrayList;
 public class Query2Main {
 
     private final static int weekLength = 7;
-    private final static String pathToFile = "s3://mysabdbucketemraws/time_series_covid19_confirmed_global.csv";
-    private final static String out = "s3://mysabdbucketemraws/query2_output.csv";
-
 
     public static void main (String[] args) {
+
+        final String pathToFile = "s3://" + args[0] + "/time_series_covid19_confirmed_global.csv";
+        final String out = "s3://" + args[0] + "/query2_output.csv";
 
         SparkConf conf = new SparkConf()
                 .setAppName("myApplication");

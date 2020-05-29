@@ -7,8 +7,13 @@ import org.apache.spark.api.java.function.PairFunction;
 import org.joda.time.DateTime;
 import scala.Tuple2;
 
+/**Per ogni coppia di domeniche calcolo la media che sarà proprio la media
+ di una singola settimana. Come chiave uso la data della domenica della
+ settimana di riferimento.
+ */
 public class Average {
 
+    /**Calcolo la media dei dimessi guariti */
     public static JavaPairRDD<DateTime, Double>
         computeHealedDischargedAverage(JavaPairRDD<Tuple2<DayIta, DayIta>, Long> pairRDD, int weekLength) {
 
@@ -35,6 +40,7 @@ public class Average {
         return healedDischargedRdd;
     }
 
+    /**Calcolo la media dei tamponi*/
     public static JavaPairRDD<DateTime, Double>
         computeSwabsAverage(JavaPairRDD<Tuple2<DayIta, DayIta>, Long> pairRDD, int weekLength) {
 

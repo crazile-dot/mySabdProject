@@ -25,6 +25,9 @@ public class Query2CsvParser {
         return anotherState;
     }
 
+    /**Prima di cominciare a lavorare sui valori del dataset, controllo che questi
+        seguano un andamento monotono crescente, riparando eventuali valori errati.
+     */
     public static void checkMonotonicity(ArrayList<Integer> arrayList) {
         for(int i = 1; i < arrayList.size(); i++) {
             if(arrayList.get(i-1) > arrayList.get(i)) {

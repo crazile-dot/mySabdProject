@@ -14,11 +14,12 @@ import java.io.IOException;
 public class Query1Main {
 
     private final static int weekLength = 7;
-    //s3://mysabdbucketemraws
-    private final static String pathToFile = "s3://mysabdbucketemraws/dpc-covid19-ita-andamento-nazionale.csv";
-    private final static String output = "s3://mysabdbucketemraws/query1_output.csv";
 
     public static void main (String[] args) {
+
+        final String pathToFile = "s3://" + args[0] + "/dpc-covid19-ita-andamento-nazionale.csv";
+        final String output = "s3://" + args[0] + "/query1_output.csv";
+
 
         SparkConf conf = new SparkConf()
                 .setAppName("myApplication");
